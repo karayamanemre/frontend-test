@@ -6,10 +6,12 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { Separator } from "./ui/separator";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const emailRegex = /\S+@\S+\.\S+/;
 
 export const LoginForm = () => {
+	// const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +44,13 @@ export const LoginForm = () => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		if (!emailRegex.test(email)) {
+			toast("Please enter a valid email address.");
+			return;
+		} else if (email.length < 15) {
+			toast("Email must be at least 15 characters long.");
+			return;
+		}
 		if (password.length < 8) {
 			toast("Password must be at least 8 characters long.");
 			return;
@@ -50,21 +59,20 @@ export const LoginForm = () => {
 		const response = await performLogin(email, password);
 		if (response && response.error) {
 			let userMessage = "An error occurred. Please try again.";
-			if (Array.isArray(response.detail) && response.detail.length > 0) {
-				const errorDetail = response.detail[0];
-				if (
-					errorDetail.field_name === "email" &&
-					errorDetail.error.includes("at least 15 items")
-				) {
-					userMessage = "Invalid email.";
-				} else if (
-					errorDetail.field_name === "email" &&
-					errorDetail.error.includes("not a valid email address")
-				) {
-					userMessage = "Invalid email.";
+			if (Array.isArray(response.detail)) {
+				const emailError = response.detail.find(
+					(d) => d.field_name === "email"
+				);
+				if (emailError) {
+					userMessage = emailError.error;
 				}
+			} else if (typeof response.detail === "string") {
+				userMessage = response.detail;
 			}
 			toast(userMessage);
+		} else {
+			toast("Login successful!");
+			// navigate("/home");
 		}
 	};
 

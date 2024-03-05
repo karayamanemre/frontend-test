@@ -5,6 +5,7 @@ import { Toaster } from "./components/ui/sonner";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { NewPasswordPage } from "./pages/NewPasswordPage";
 import { PrivateRoute } from "./components/PrivateRoute";
+import { HomePage } from "./pages/Home";
 
 const App = () => {
 	return (
@@ -14,6 +15,14 @@ const App = () => {
 					<Route
 						path='*'
 						element={<PrivateRoute />}
+					/>
+					<Route
+						path='/'
+						element={
+							<PrivateRoute>
+								<HomePage />
+							</PrivateRoute>
+						}
 					/>
 					<Route
 						path='/login'
