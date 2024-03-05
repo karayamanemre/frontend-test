@@ -1,0 +1,34 @@
+@font-face {
+	font-family: "Basis Grotesque Pro";
+	src: url("./BasisGrotesqueArabicPro-Regular.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Basis Grotesque Pro";
+	src: url("./BasisGrotesqueArabicPro-Medium.ttf") format("truetype");
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Basis Grotesque Pro";
+	src: url("./BasisGrotesqueArabicPro-Light.ttf") format("truetype");
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Basis Grotesque Pro";
+	src: url("./BasisGrotesqueArabicPro-Black.ttf") format("truetype");
+	font-weight: 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Basis Grotesque Pro";
+	src: url("./BasisGrotesqueArabicPro-Bold.ttf") format("truetype");
+	font-weight: bold;
+	font-style: normal;
+}
