@@ -47,31 +47,26 @@ export const LoginForm = () => {
 			return;
 		}
 
-		const errorMessage = await performLogin(email, password);
-		if (errorMessage) {
-			let userFriendlyError = errorMessage;
-			if (typeof errorMessage === "string") {
-				userFriendlyError = interpretErrorMessage(errorMessage);
-			} else if (errorMessage.detail && Array.isArray(errorMessage.detail)) {
-				errorMessage.detail.forEach((error) => {
-					if (
-						error.field_name === "email" &&
-						error.error.includes("at least 15 items")
-					) {
-						userFriendlyError = "User doesn't exist. Enter a valid user info.";
-					}
-				});
+		const response = await performLogin(email, password);
+		if (response && response.error) {
+			let userMessage = "An error occurred. Please try again.";
+			if (Array.isArray(response.detail) && response.detail.length > 0) {
+				const errorDetail = response.detail[0];
+				if (
+					errorDetail.field_name === "email" &&
+					errorDetail.error.includes("at least 15 items")
+				) {
+					userMessage = "Invalid email.";
+				} else if (
+					errorDetail.field_name === "email" &&
+					errorDetail.error.includes("not a valid email address")
+				) {
+					userMessage = "Invalid email.";
+				}
 			}
-			toast(userFriendlyError);
+			toast(userMessage);
 		}
 	};
-
-	function interpretErrorMessage(errorMessage) {
-		if (errorMessage.includes("Invalid user")) {
-			return "User doesn't exist. Enter a valid user info.";
-		}
-		return errorMessage;
-	}
 
 	return (
 		<div className='flex flex-col items-center justify-center gap-5 sm:w-[400px] w-[320px] px-6 sm:px-0'>
