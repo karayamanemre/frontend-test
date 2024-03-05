@@ -4,12 +4,17 @@ import { LoginPage } from "./pages/LoginPage";
 import { Toaster } from "./components/ui/sonner";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { NewPasswordPage } from "./pages/NewPasswordPage";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 const App = () => {
 	return (
 		<AuthProvider>
 			<BrowserRouter>
 				<Routes>
+					<Route
+						path='*'
+						element={<PrivateRoute />}
+					/>
 					<Route
 						path='/login'
 						element={<LoginPage />}
